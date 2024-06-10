@@ -26,8 +26,8 @@ public class SecurityConfiguration {
 
                 .formLogin(formLogin ->
                         formLogin.loginPage("/login")
-                                .authenticationDetailsSource(authenticationDetailsSource)
-                                .defaultSuccessUrl("/", true)
+                                //.authenticationDetailsSource(authenticationDetailsSource) //TODO
+                                .defaultSuccessUrl("/welcomePage", true)
                                 .failureUrl("/login?error=true")
                                 .permitAll())
 

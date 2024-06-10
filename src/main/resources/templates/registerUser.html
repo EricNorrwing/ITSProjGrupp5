@@ -2,9 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Register User Page</title>
 </head>
 <body>
+
+<form name='f' th:action="@{/registerUser.html}" method='POST'>
+
+    <h1>User Registration</h1>
+    <form action="#" th:action="@{/register}" method="post" th:object="${user}">
+        <label>E-mail:</label>
+        <input type="text" th:field="*{email}" /><br/>
+
+        <label>Password:</label>
+        <input type="password" th:field="*{password}" /><br/>
+
+        <button type="submit">Register</button>
+    </form>
+
+</form>
 
 </body>
 </html>
