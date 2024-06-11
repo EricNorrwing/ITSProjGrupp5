@@ -10,4 +10,4 @@ public class ItsProjGrupp5Application {
         SpringApplication.run(ItsProjGrupp5Application.class, args);
     }
 
-} //hej
+}
