@@ -1,7 +1,7 @@
 package se.g5.itsprojgrupp5.model;
 
 import jakarta.persistence.*;
-
+//TODO class comment
 @Entity
 @Table(name = "users")
 public class AppUser {
@@ -27,8 +27,6 @@ public class AppUser {
 
     public AppUser() {
     }
-
-
 
     public Long getId() {
         return id;

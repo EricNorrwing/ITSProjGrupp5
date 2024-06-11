@@ -2,26 +2,23 @@ package se.g5.itsprojgrupp5.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import se.g5.itsprojgrupp5.repository.UserRepository;
-import se.g5.itsprojgrupp5.service.UserDetailService;
+import se.g5.itsprojgrupp5.service.CustomUserDetailsService;
 
 
 // TODO Add class comment
 @Configuration
 public class SecurityConfiguration {
 
-    private final UserDetailService userDetailService;
-    private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
+    private final CustomUserDetailsService customUserDetailsService;
 
-    public SecurityConfiguration(UserDetailService userDetailService, PasswordEncoder passwordEncoder, UserRepository userRepository) {
-        this.userDetailService = userDetailService;
-        this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
+    public SecurityConfiguration(CustomUserDetailsService customUserDetailsService) {
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     @Bean
@@ -29,20 +26,26 @@ public class SecurityConfiguration {
         http
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/registerUser")) //TODO Remove when testing
                 .authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests.anyRequest().authenticated())
-                .formLogin(formLogin ->
-                        formLogin
-                                .authenticationDetailsSource()
-
+                        authorizeRequests
+                        .anyRequest()
+                        .authenticated())
+                .authenticationProvider(customAuthenticationProvider())
+                .httpBasic(Customizer.withDefaults())
+                .formLogin(form -> form
+                        //.loginPage("/login") //TODO need custom login page?
+                        .defaultSuccessUrl("/welcome")
+                        .failureUrl("/error"));
         return http.build();
     }
 
-
-
     @Bean
-    public UserDetailService userDetailsService() {
-        var userDetailsService = new UserDetailService(userRepository);
-        return userDetailsService;
+    public DaoAuthenticationProvider customAuthenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+
+        authProvider.setUserDetailsService(customUserDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+
+        return authProvider;
     }
 
     @Bean

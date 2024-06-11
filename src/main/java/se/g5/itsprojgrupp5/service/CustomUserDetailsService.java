@@ -2,6 +2,7 @@ package se.g5.itsprojgrupp5.service;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,11 +14,11 @@ import java.util.Collection;
 import java.util.Collections;
 //TODO class comment
 @Service
-public class UserDetailService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    public UserDetailService(UserRepository userRepository) {
+    public CustomUserDetailsService(UserRepository userRepository) {
         super();
         this.userRepository = userRepository;
     }
@@ -30,8 +31,7 @@ public class UserDetailService implements UserDetailsService {
             throw new UsernameNotFoundException("No user found with username: " + email);
         }
         Collection<? extends GrantedAuthority> authorities = getAuthorities(user.getRole());
-
-        return null;
+        return new User(user.getEmail(), user.getPassword(), authorities);
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(String role) {

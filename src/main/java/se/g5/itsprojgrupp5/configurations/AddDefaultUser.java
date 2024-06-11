@@ -10,18 +10,15 @@ import se.g5.itsprojgrupp5.repository.UserRepository;
 public class AddDefaultUser {
 
     private final UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
-
 
     public AddDefaultUser(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-
     @PostConstruct
-    public void postConstruct() {
+    public void generateUsers() {
         AppUser admin = new AppUser();
         admin.setEmail("admin@admin.se");
         admin.setPassword(passwordEncoder.encode("adminpass"));
@@ -34,4 +31,5 @@ public class AddDefaultUser {
         defaultUser.setRole("USER");
         userRepository.save(defaultUser);
     }
+
 }
