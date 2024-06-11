@@ -2,16 +2,24 @@ package se.g5.itsprojgrupp5.dto;
 
 public class UserDTO {
 
-    private String username;
-
+    private String email;
     private String password;
+    private String role;
 
-    public String getUsername() {
-        return username;
+    public String getRole() {
+        return role;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

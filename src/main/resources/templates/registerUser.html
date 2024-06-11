@@ -6,15 +6,18 @@
 </head>
 <body>
 
-<form name='f' th:action="@{/registerUser.html}" method='POST'>
+<form name='f' th:action="@{/registerUser}" method='POST'>
 
     <h1>User Registration</h1>
-    <form action="#" th:action="@{/register}" method="post" th:object="${user}">
+    <form th:action="@{/registerUser}" method="post" th:object="${user}">
         <label>E-mail:</label>
-        <input type="text" th:field="*{email}" /><br/>
+        <input type="text" th:field="*{username}" /><br/>
 
         <label>Password:</label>
         <input type="password" th:field="*{password}" /><br/>
+
+        <label>Role:</label>
+        <input type="text" th:field="*{role}" /><br/>
 
         <button type="submit">Register</button>
     </form>

@@ -2,51 +2,53 @@ package se.g5.itsprojgrupp5.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import se.g5.itsprojgrupp5.repository.UserRepository;
+import se.g5.itsprojgrupp5.service.UserDetailService;
 
 
 // TODO Add class comment
 @Configuration
 public class SecurityConfiguration {
 
+    private final UserDetailService userDetailService;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+
+    public SecurityConfiguration(UserDetailService userDetailService, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+        this.userDetailService = userDetailService;
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+    }
+
     @Bean
-    public SecurityFilterChain securityChain(HttpSecurity http) throws Exception {
+    protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/registerUser")) //TODO Remove when testing
-                .authorizeHttpRequests(
-                        authorizeRequests ->
-                                authorizeRequests
-                                        .requestMatchers("/register", "/registerUser").permitAll()
-                                        .requestMatchers("/admin").hasRole("ADMIN")
-                                        .anyRequest().authenticated())
-
-
+                .authorizeHttpRequests(authorizeRequests ->
+                        authorizeRequests.anyRequest().authenticated())
                 .formLogin(formLogin ->
-                        formLogin.loginPage("/login")
-                                //.authenticationDetailsSource(authenticationDetailsSource) //TODO
-                                .defaultSuccessUrl("/welcomePage", true)
-                                .failureUrl("/login?error=true")
-                                .permitAll())
-
-                .logout(logout ->
-                        logout
-                                .logoutUrl("/perform_logout") // Define the logout URL
-                                .logoutSuccessUrl("/login?logout") // Redirect after logout
-                                .deleteCookies("JSESSIONID") // Delete cookies on logout
-                                .invalidateHttpSession(true) // Invalidate session on logout
-                );
+                        formLogin
+                                .authenticationDetailsSource()
 
         return http.build();
+    }
+
+
+
+    @Bean
+    public UserDetailService userDetailsService() {
+        var userDetailsService = new UserDetailService(userRepository);
+        return userDetailsService;
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
 }

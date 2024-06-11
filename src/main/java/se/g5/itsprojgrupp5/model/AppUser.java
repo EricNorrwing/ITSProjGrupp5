@@ -16,23 +16,20 @@ public class AppUser {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private String secret;
-
+    @Column(nullable=false)
     private String role;
+
+//    //TODO FIX
+//    private String name;
+//    private String surname;
+//    private int age;
 
 
     public AppUser() {
     }
 
 
-    public AppUser(String email, String password, String secret) {
-        this.email = email;
-        this.password = password;
-        this.secret = secret;
-    }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -55,14 +52,6 @@ public class AppUser {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getSecret() {
-        return secret;
-    }
-
-    public void setSecret(String secret) {
-        this.secret = secret;
     }
 
     public String getRole() {
