@@ -41,6 +41,21 @@ public class GetController {
         model.addAttribute("message", "Hej " + username + ", välkommen!");
         return "home";
     }
-}
+
+        @GetMapping("/logout-success")
+        public String logoutSuccess(Model model) {
+
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String username;
+            if (principal instanceof UserDetails) {
+                username = ((UserDetails) principal).getUsername();
+            } else {
+                username = principal.toString();
+            }
+            model.addAttribute("message", "Du är utloggad!");
+            return "logout";
+        }
+    }
+
 
 
