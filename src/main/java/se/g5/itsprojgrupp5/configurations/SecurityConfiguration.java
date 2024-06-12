@@ -24,16 +24,18 @@ public class SecurityConfiguration {
     @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/registerUser")) //TODO Remove when testing
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/register/**")) //TODO Remove when testing
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
+                                .requestMatchers("/register/**").permitAll()
+                                .requestMatchers("/").hasRole("ADMIN")
                         .anyRequest()
                         .authenticated())
                 .authenticationProvider(customAuthenticationProvider())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(form -> form
                         //.loginPage("/login") //TODO need custom login page?
-                        .defaultSuccessUrl("/welcome")
+                        .defaultSuccessUrl("/")
                         .failureUrl("/error"));
         return http.build();
     }
