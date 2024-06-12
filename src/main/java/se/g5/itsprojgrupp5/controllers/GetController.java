@@ -70,6 +70,11 @@ public class GetController {
         model.addAttribute("message", "Du är utloggad!");
         return "logout";
     }
+
+    @GetMapping("/admin/page")
+    public String adminpage () {
+        return "adminPage";
+    }
 }
 
 

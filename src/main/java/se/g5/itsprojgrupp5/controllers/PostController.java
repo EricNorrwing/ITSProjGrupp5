@@ -26,7 +26,7 @@ public class PostController {
     @PostMapping("/register/user")
     public String createUser (@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult result, Model model) {
         if(result.hasErrors()) {
-            return "registerPage";
+            return "registerUser";
         }
         userRepository.save(
                 new AppUser.AppUserBuilder()
