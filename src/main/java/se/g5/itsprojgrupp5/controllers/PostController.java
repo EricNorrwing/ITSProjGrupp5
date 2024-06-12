@@ -1,5 +1,6 @@
 package se.g5.itsprojgrupp5.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,21 +23,23 @@ public class PostController {
         this.userRepository = userRepository;
     }
 
-    @PostMapping("/registerUser")
-    public String createUser (@ModelAttribute("user") UserDTO userDTO, BindingResult result, Model model) {
+    @PostMapping("/register/user")
+    public String createUser (@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult result, Model model) {
         if(result.hasErrors()) {
-            //TODO Error handling
-            System.out.println("THROW ERRRORS");
             return "registerPage";
         }
-
-//        AppUser user = new AppUser(
-//                userDTO.getEmail(),
-//                userDTO.getPassword(),
-//                userDTO.getRole());
-//
-//        userRepository.save(user);
-        return "login";
+        userRepository.save(
+                new AppUser.AppUserBuilder()
+                        .withEmail(userDTO.getEmail())
+                        .withPassword(passwordEncoder.encode(userDTO.getPassword()))
+                        .withRole(userDTO.getRole())
+                        .withName(userDTO.getName())
+                        .withSurname(userDTO.getSurname())
+                        .withAge(userDTO.getAge())
+                        .build()
+        );
+        model.addAttribute("savedUser", userDTO);
+        return "registerSuccess";
     }
 
 }

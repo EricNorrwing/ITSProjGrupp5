@@ -4,7 +4,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
 import se.g5.itsprojgrupp5.dto.UserDTO;
 
@@ -12,15 +14,17 @@ import se.g5.itsprojgrupp5.dto.UserDTO;
 @Controller()
 public class GetController {
 
-    @GetMapping("/welcome")
-    public String welcomePage () {
-        return "welcomePage";
-    }
 
-    @GetMapping("/registerUser")
+    @GetMapping("/register/user")
     public String registerUser (Model model) {
         model.addAttribute("user", new UserDTO());
         return "registerUser";
+    }
+
+    @GetMapping("/register/success")
+    public String registerSuccess (@ModelAttribute("user") UserDTO userDTO, Model model) {
+        model.addAttribute("user", new UserDTO());
+        return "registerSuccess";
     }
 
     @GetMapping("/removeUser")

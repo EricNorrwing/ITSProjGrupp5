@@ -2,26 +2,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Register User Page</title>
+    <title>Register Users</title>
 </head>
 <body>
 
-<form name='f' th:action="@{/registerUser}" method='POST'>
+<form th:action="@{/register/user}" method='POST' th:object="${user}">
+    <h1>New User Registration</h1>
 
-    <h1>User Registration</h1>
-    <form th:action="@{/registerUser}" method="post" th:object="${user}">
+    <div>
         <label>E-mail:</label>
-        <input type="text" th:field="*{username}" /><br/>
+        <input type="text" th:field="*{email}" /><br/>
+        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
+    </div>
 
+    <div>
         <label>Password:</label>
         <input type="password" th:field="*{password}" /><br/>
+        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
+    </div>
 
+    <div>
         <label>Role:</label>
         <input type="text" th:field="*{role}" /><br/>
+        <div th:if="${#fields.hasErrors('role')}" th:errors="*{role}">Role Error</div>
+    </div>
 
-        <button type="submit">Register</button>
-    </form>
+    <div>
+        <label>Name:</label>
+        <input type="text" th:field="*{name}" /><br/>
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
+    </div>
 
+    <div>
+        <label>Surname:</label>
+        <input type="text" th:field="*{surname}" /><br/>
+        <div th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname Error</div>
+    </div>
+
+    <div>
+        <label>Age:</label>
+        <input type="number" th:field="*{age}" /><br/>
+        <div th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</div>
+    </div>
+
+    <button type="submit">Register</button>
 </form>
 
 </body>

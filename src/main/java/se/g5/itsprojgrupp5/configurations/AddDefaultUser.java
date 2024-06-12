@@ -19,17 +19,31 @@ public class AddDefaultUser {
 
     @PostConstruct
     public void generateUsers() {
-        AppUser admin = new AppUser();
-        admin.setEmail("admin@admin.se");
-        admin.setPassword(passwordEncoder.encode("adminpass"));
-        admin.setRole("ADMIN");
-        userRepository.save(admin);
+        userRepository.save(
+                new AppUser.AppUserBuilder()
+                        .withEmail("admin@admin.se")
+                        .withPassword(passwordEncoder.encode("adminpass"))
+                        .withRole("ADMIN")
+                        .withName("Thomas")
+                        .withSurname("Thomasson")
+                        .withAge(177)
+                        .build()
 
-        AppUser defaultUser = new AppUser();
-        defaultUser.setEmail("user@user.se");
-        defaultUser.setPassword(passwordEncoder.encode("userpass"));
-        defaultUser.setRole("USER");
-        userRepository.save(defaultUser);
+        );
+
+        userRepository.save(
+                new AppUser.AppUserBuilder()
+                        .withEmail("user@user.se")
+                        .withPassword(passwordEncoder.encode("userpass"))
+                        .withRole("USER")
+                        .withName("Sara")
+                        .withSurname("Sarasson")
+                        .withAge(167)
+                        .build()
+        );
+
+        AppUser user = userRepository.findByEmail("admin@admin.se");
+        System.out.println(user);
     }
 
 }
