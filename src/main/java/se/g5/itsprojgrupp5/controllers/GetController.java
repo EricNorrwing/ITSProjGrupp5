@@ -1,3 +1,4 @@
+
 package se.g5.itsprojgrupp5.controllers;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,26 +10,33 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
 import se.g5.itsprojgrupp5.dto.UserDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.nio.file.Paths;
 
 // TODO Add class comment
 @Controller()
 public class GetController {
 
+    private static final Logger logger = LoggerFactory.getLogger(GetController.class);
 
     @GetMapping("/register/user")
-    public String registerUser (Model model) {
+    public String registerUser(Model model) {
         model.addAttribute("user", new UserDTO());
+        logger.debug("Accessing the register user page.");
         return "registerUser";
     }
 
     @GetMapping("/register/success")
-    public String registerSuccess (@ModelAttribute("user") UserDTO userDTO, Model model) {
+    public String registerSuccess(@ModelAttribute("user") UserDTO userDTO, Model model) {
         model.addAttribute("user", new UserDTO());
-        return "registerSuccess";
+        return "registerUser";
     }
 
-    @GetMapping("/removeUser")
-    public String removeUserPage () {
+    @GetMapping("/remove/user")
+    public String removeUserPage() {
+        logger.debug("Accessing the remove user page.");
         return "removeUserPage";
     }
 
@@ -38,28 +46,31 @@ public class GetController {
         String username;
         if (principal instanceof UserDetails) {
             username = ((UserDetails) principal).getUsername();
+            logger.debug("Authenticated user found: {}", username);
         } else {
             username = principal.toString();
+            logger.debug("Authenticated principal found: {}", username);
         }
+
 
         model.addAttribute("message", "Hej " + username + ", välkommen!");
         return "home";
     }
 
-        @GetMapping("/logout-success")
-        public String logoutSuccess(Model model) {
+    @GetMapping("/logout-success")
+    public String logoutSuccess(Model model) {
 
-            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            String username;
-            if (principal instanceof UserDetails) {
-                username = ((UserDetails) principal).getUsername();
-            } else {
-                username = principal.toString();
-            }
-            model.addAttribute("message", "Du är utloggad!");
-            return "logout";
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        } else {
+            username = principal.toString();
         }
+        model.addAttribute("message", "Du är utloggad!");
+        return "logout";
     }
+}
 
 
 
