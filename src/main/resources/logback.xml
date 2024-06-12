@@ -7,6 +7,12 @@
     </appender>
 
     <root level="debug">
+    <logger name="se.g5.itsprojgrupp5.controllers.GetController" level="debug" additivity="false">
+        <appender-ref ref="FILE" />
+    </logger>
+    </root>
+
+    <root level="error">
         <appender-ref ref="FILE" />
     </root>
 </configuration>
