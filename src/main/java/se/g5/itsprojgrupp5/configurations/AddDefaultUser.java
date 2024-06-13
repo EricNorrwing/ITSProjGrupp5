@@ -41,9 +41,6 @@ public class AddDefaultUser {
                         .withAge(167)
                         .build()
         );
-
-        AppUser user = userRepository.findByEmail("admin@admin.se");
-        System.out.println(user);
     }
 
 }
