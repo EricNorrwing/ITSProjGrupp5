@@ -6,12 +6,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import se.g5.itsprojgrupp5.configurations.MaskingUtils;
+import se.g5.itsprojgrupp5.dto.EmailDTO;
 import se.g5.itsprojgrupp5.dto.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import se.g5.itsprojgrupp5.model.AppUser;
 
 import java.nio.file.Paths;
 
@@ -19,7 +20,9 @@ import java.nio.file.Paths;
 @Controller
 public class GetController {
 
+    //TODO Different injection?
     private static final Logger logger = LoggerFactory.getLogger(GetController.class);
+    MaskingUtils maskingUtils = new MaskingUtils();
 
     @GetMapping("/register/user")
     public String registerUser(Model model) {
@@ -34,11 +37,6 @@ public class GetController {
         return "registerUser";
     }
 
-    @GetMapping("/remove/user")
-    public String removeUserPage() {
-        logger.debug("Accessing the remove user page.");
-        return "removeUserPage";
-    }
 
     @GetMapping("/")
     public String home(Model model) {
@@ -53,8 +51,14 @@ public class GetController {
         }
 
 
-        model.addAttribute("message", "Hej " + username + ", välkommen!");
+        model.addAttribute("message", "Hej " + maskingUtils.anonymizeEmail(username) + ", välkommen!");
         return "home";
+    }
+
+    @GetMapping("/search")
+    public String Search(Model model) {
+        model.addAttribute("email", new EmailDTO());
+        return "search";
     }
 
     @GetMapping("/logout-success")
@@ -75,6 +79,27 @@ public class GetController {
     public String adminpage () {
         return "adminPage";
     }
+
+//    @Controller
+//    public class EmailController {
+//
+//        @GetMapping("/anonymize/Email")
+//        public String showEmailForm() {
+//            return "emailForm";
+//        }
+
+//        @PostMapping("/anonymize/Email")
+//        public String anonymizeEmail(@RequestParam("email") String email, Model model) {
+//            try {
+//                String anonymizedEmail = MaskingUtils.anonymizeEmail(email);
+//                model.addAttribute("anonymizedEmail", anonymizedEmail);
+//            } catch (IllegalArgumentException e) {
+//                model.addAttribute("error", e.getMessage());
+//            }
+//            return "emailForm";
+//        }
+//    }
+
 }
 
 
