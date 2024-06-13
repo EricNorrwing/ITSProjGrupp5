@@ -34,6 +34,8 @@ public class GetController {
     @GetMapping("/register/success")
     public String registerSuccess(@ModelAttribute("user") UserDTO userDTO, Model model) {
         model.addAttribute("user", new UserDTO());
+        logger.debug("Registration successful for user: {}", userDTO.getEmail()); //?????????????????????? MAYBE
+
         return "registerUser";
     }
 
@@ -58,6 +60,7 @@ public class GetController {
     @GetMapping("/search")
     public String Search(Model model) {
         model.addAttribute("email", new EmailDTO());
+        logger.debug("Accessing the search page.");
         return "search";
     }
 
@@ -71,12 +74,14 @@ public class GetController {
         } else {
             username = principal.toString();
         }
+        logger.debug("User logged out: {}", username);
         model.addAttribute("message", "Du är utloggad!");
         return "logout";
     }
 
     @GetMapping("/admin/page")
     public String adminpage () {
+        logger.debug("Accessing the admin page.");
         return "adminPage";
     }
 }
