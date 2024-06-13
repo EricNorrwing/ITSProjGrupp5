@@ -24,7 +24,7 @@ public class AddDefaultUser {
 
     @PostConstruct
     public void generateUsers() {
-        logger.debug("Adding default users");
+        logger.debug("Adding default admin users");
         userRepository.save(
                 new AppUser.AppUserBuilder()
                         .withEmail("admin@admin.se")

@@ -23,7 +23,7 @@ import se.g5.itsprojgrupp5.repository.UserRepository;
 public class PostController {
 
     //TODO Different injection?
-    private static final Logger logger = LoggerFactory.getLogger(GetController.class);
+    private static final Logger logger = LoggerFactory.getLogger(PostController.class);
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
@@ -72,11 +72,11 @@ public class PostController {
 
         if (userToBeDeleted == null) {
             model.addAttribute("message", "Could not find user with email: " + emailDto.getEmail());
-            logger.debug("Could not remove user because the user did not exist");
+            logger.debug("Could not remove user: user does not exist with email: {}", emailDto.getEmail());
             return "removeUserFailure";
         } else if (username.equals(emailDto.getEmail())) {
             model.addAttribute("message", "Could not remove user: " + emailDto.getEmail() + " as it is the current user.");
-            logger.debug("Could not remove user because the user was currently logged in");
+            logger.debug("Could not remove user: user is currently logged in with email: {}", emailDto.getEmail());
             return "removeUserFailure";
         } else {
             userRepository.delete(userToBeDeleted);
@@ -85,6 +85,4 @@ public class PostController {
         }
 
     }
-    }
-
-
+}
