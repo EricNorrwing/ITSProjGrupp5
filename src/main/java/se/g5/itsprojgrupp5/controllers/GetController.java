@@ -9,16 +9,19 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
+import se.g5.itsprojgrupp5.dto.EmailDTO;
 import se.g5.itsprojgrupp5.dto.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import se.g5.itsprojgrupp5.model.AppUser;
 
 import java.nio.file.Paths;
 
 // TODO Add class comment
-@Controller()
+@Controller
 public class GetController {
 
+    //TODO Different injection?
     private static final Logger logger = LoggerFactory.getLogger(GetController.class);
 
     @GetMapping("/register/user")
@@ -34,11 +37,6 @@ public class GetController {
         return "registerUser";
     }
 
-    @GetMapping("/remove/user")
-    public String removeUserPage() {
-        logger.debug("Accessing the remove user page.");
-        return "removeUserPage";
-    }
 
     @GetMapping("/")
     public String home(Model model) {
@@ -57,6 +55,12 @@ public class GetController {
         return "home";
     }
 
+    @GetMapping("/search")
+    public String Search(Model model) {
+        model.addAttribute("email", new EmailDTO());
+        return "search";
+    }
+
     @GetMapping("/logout-success")
     public String logoutSuccess(Model model) {
 
@@ -69,6 +73,11 @@ public class GetController {
         }
         model.addAttribute("message", "Du är utloggad!");
         return "logout";
+    }
+
+    @GetMapping("/admin/page")
+    public String adminpage () {
+        return "adminPage";
     }
 }
 
