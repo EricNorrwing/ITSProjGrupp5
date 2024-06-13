@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import java.nio.file.Paths;
 
 // TODO Add class comment
-@Controller()
+@Controller
 public class GetController {
 
     private static final Logger logger = LoggerFactory.getLogger(GetController.class);

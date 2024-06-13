@@ -23,8 +23,8 @@ public class SecurityConfiguration {
         http
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-//                                .requestMatchers("/").permitAll()
-                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/").permitAll()
+                                .requestMatchers("/**").hasAuthority("ADMIN")
                                 .anyRequest()
                                 .authenticated())
                 .httpBasic(Customizer.withDefaults())
