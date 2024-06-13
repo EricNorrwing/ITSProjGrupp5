@@ -1,25 +1,36 @@
 package se.g5.itsprojgrupp5.model;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-// TODO Add class comment
+import java.util.Collection;
+import java.util.Collections;
+
 @Entity
 @Table(name = "users")
-public class AppUser {
+public class AppUser implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false, unique = true)
     private String email;
+
     @Column(nullable = false)
     private String password;
+
     @Column(nullable = false)
     private String role;
+
     @Column
     private String name;
+
     @Column
     private String surname;
+
     @Column
     private int age;
 
@@ -34,30 +45,6 @@ public class AppUser {
         this.name = builder.name;
         this.surname = builder.surname;
         this.age = builder.age;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public Long getId() {
@@ -90,6 +77,40 @@ public class AppUser {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+        @Override
+        public Collection<? extends GrantedAuthority> getAuthorities() {
+            return Collections.singletonList(new SimpleGrantedAuthority(role));
+        }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 
     public static class AppUserBuilder {

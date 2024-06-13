@@ -12,10 +12,16 @@ import org.springframework.security.web.SecurityFilterChain;
 import se.g5.itsprojgrupp5.service.CustomUserDetailsService;
 
 
+
 // TODO Add class comment
 @Configuration
 public class SecurityConfiguration {
 
+    private final CustomUserDetailsService customUserDetailsService;
+
+    public SecurityConfiguration(CustomUserDetailsService customUserDetailsService) {
+        this.customUserDetailsService = customUserDetailsService;
+    }
 
     @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -23,7 +29,7 @@ public class SecurityConfiguration {
         http
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/").permitAll()
+                                .requestMatchers("/").hasAuthority("USER")
                                 .requestMatchers("/**").hasAuthority("ADMIN")
                                 .anyRequest()
                                 .authenticated())
@@ -33,6 +39,13 @@ public class SecurityConfiguration {
         return http.build();
     }
 
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(customUserDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

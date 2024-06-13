@@ -6,3 +6,5 @@
 2024-06-13 12:22:56 DEBUG s.g.i.controllers.GetController - Authenticated user found: admin@admin.se
 2024-06-13 12:24:08 DEBUG s.g.i.controllers.GetController - Adding default admin users
 2024-06-13 12:24:18 DEBUG s.g.i.controllers.GetController - Authenticated user found: admin@admin.se
+2024-06-13 13:34:02 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-13 13:39:57 DEBUG s.g.i.controllers.GetController - Adding default admin users
