@@ -12,5 +12,6 @@ import se.g5.itsprojgrupp5.model.AppUser;
 @Repository
 public interface UserRepository extends JpaRepository<AppUser, Long> {
     AppUser findByEmail(String email);
+    boolean existsByEmail(String email);
 
 }

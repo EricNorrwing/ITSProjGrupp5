@@ -29,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public AppUser loadUserByUsername(String email) throws UsernameNotFoundException {
         AppUser user = userRepository.findByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException("No user found with username: " + email);
@@ -47,6 +47,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         AppUser user = userRepository.findByEmail(email);
         userRepository.delete(user);
         logger.debug("removed user with username {}", user.getEmail());
+    }
+
+    public boolean exists (String email) {
+        return userRepository.existsByEmail(email);
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(String role) {

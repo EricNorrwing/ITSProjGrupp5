@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import se.g5.itsprojgrupp5.dto.EmailDTO;
+import se.g5.itsprojgrupp5.dto.UpdateUserDTO;
 import se.g5.itsprojgrupp5.dto.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +46,6 @@ public class GetController {
         return "registerUser";
     }
 
-
     @GetMapping("/")
     public String home(Model model) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -62,12 +62,23 @@ public class GetController {
         return "home";
     }
 
-//    @GetMapping("/update/user")
-//    public String updateUser (@ModelAttribute("email") EmailDTO emailDTO, Model model) {
-//        AppUser user = customUserDetailsService.loadUserByUsername(emailDTO.getEmail());
-//        model.addAttribute("user", new UserDTO());
-//        return "updateUser";
-//    }
+    @GetMapping("/update/user")
+    public String updateUserForm(@ModelAttribute("emailDTO") EmailDTO emailDTO, Model model) {
+        if(customUserDetailsService.exists(emailDTO.getEmail())) {
+            UpdateUserDTO updateUserDTO = new UpdateUserDTO();
+            updateUserDTO.setEmail(emailDTO.getEmail());
+            model.addAttribute("updateUserDTO", updateUserDTO);
+            logger.debug("Accessing the updateUser form with email: {}", emailDTO.getEmail());
+            return "updateUser";
+        } else {
+            model.addAttribute("email", new EmailDTO());
+            model.addAttribute("message", "Error, could not find user by name: " + emailDTO.getEmail());
+            logger.debug("Could not find user by this username: {}", emailDTO.getEmail());
+            return "search";
+        }
+
+
+    }
 
     @GetMapping("/search")
     public String Search(Model model) {

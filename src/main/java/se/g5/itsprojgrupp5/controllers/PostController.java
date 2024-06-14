@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import se.g5.itsprojgrupp5.dto.EmailDTO;
+import se.g5.itsprojgrupp5.dto.UpdateUserDTO;
 import se.g5.itsprojgrupp5.dto.UserDTO;
 import se.g5.itsprojgrupp5.model.AppUser;
 import se.g5.itsprojgrupp5.repository.UserRepository;
@@ -71,27 +72,51 @@ public class PostController {
         }
 
         try {
-            UserDetails userToBeDeleted = customUserDetailsService.loadUserByUsername(emailDto.getEmail());
-
             if (username.equals(emailDto.getEmail())) {
                 model.addAttribute("message", "Could not remove user: " + emailDto.getEmail() + " as it is the current user.");
                 logger.debug("Could not remove user: user is currently logged in with email: {}", emailDto.getEmail());
-                return "removeUserFailure";
+                return "search";
             } else {
                 customUserDetailsService.deleteUser(emailDto.getEmail());
                 logger.debug("Removed user with username {}", emailDto.getEmail());
-                model.addAttribute("message", "User removed successfully.");
-                return "removeUserSuccess";  // Ensure this template exists to show the success message
+                model.addAttribute("message", "User removed successfully: " + emailDto.getEmail());
+                return "removeUserSuccess";
             }
         } catch (UsernameNotFoundException ex) {
             model.addAttribute("message", "Could not find user with email: " + emailDto.getEmail());
             logger.debug("Could not remove user: user does not exist with email: {}", emailDto.getEmail());
-            return "removeUserFailure";
+            return "search";
         } catch (Exception ex) {
             model.addAttribute("message", "An error occurred while trying to remove the user.");
             logger.error("An unexpected error occurred while removing user: {}", emailDto.getEmail(), ex);
-            return "removeUserFailure";
+            return "search";
         }
 
+    }
+
+    @PostMapping("/update/user")
+    public String updateUser(@Valid @ModelAttribute("updateUserDTO") UpdateUserDTO userDTO, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            logger.debug("Failed to update user because the input has errors");
+            return "updateUser";
+        }
+
+        try {
+            AppUser user = customUserDetailsService.loadUserByUsername(userDTO.getEmail());
+            user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+            customUserDetailsService.saveUser(user);
+
+            model.addAttribute("message", "Successfully updated user " + userDTO.getEmail() + " with password " + userDTO.getPassword());
+            logger.debug("Successfully updated user {} with new password", user.getEmail());
+            return "updateSuccess";
+        } catch (UsernameNotFoundException ex) {
+            model.addAttribute("message", "User not found: " + userDTO.getEmail());
+            logger.debug("User not found: {}", userDTO.getEmail());
+            return "updateUser";
+        } catch (Exception ex) {
+            model.addAttribute("message", "An error occurred while updating the user.");
+            logger.error("An unexpected error occurred while updating user: {}", userDTO.getEmail(), ex);
+            return "updateUser";
+        }
     }
 }
