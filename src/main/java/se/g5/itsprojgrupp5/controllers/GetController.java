@@ -3,19 +3,18 @@ package se.g5.itsprojgrupp5.controllers;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RestController;
 import se.g5.itsprojgrupp5.dto.EmailDTO;
 import se.g5.itsprojgrupp5.dto.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.g5.itsprojgrupp5.model.AppUser;
-
-import java.nio.file.Paths;
+import se.g5.itsprojgrupp5.repository.UserRepository;
+import se.g5.itsprojgrupp5.service.CustomUserDetailsService;
 
 // TODO Add class comment
 @Controller
@@ -23,6 +22,13 @@ public class GetController {
 
     //TODO Different injection?
     private static final Logger logger = LoggerFactory.getLogger(GetController.class);
+
+    private final CustomUserDetailsService customUserDetailsService;
+
+    public GetController(PasswordEncoder passwordEncoder, UserRepository userRepository, CustomUserDetailsService customUserDetailsService) {
+
+        this.customUserDetailsService = customUserDetailsService;
+    }
 
     @GetMapping("/register/user")
     public String registerUser(Model model) {
@@ -52,10 +58,16 @@ public class GetController {
             logger.debug("Authenticated principal found: {}", username);
         }
 
-
         model.addAttribute("message", "Hej " + username + ", välkommen!");
         return "home";
     }
+
+//    @GetMapping("/update/user")
+//    public String updateUser (@ModelAttribute("email") EmailDTO emailDTO, Model model) {
+//        AppUser user = customUserDetailsService.loadUserByUsername(emailDTO.getEmail());
+//        model.addAttribute("user", new UserDTO());
+//        return "updateUser";
+//    }
 
     @GetMapping("/search")
     public String Search(Model model) {

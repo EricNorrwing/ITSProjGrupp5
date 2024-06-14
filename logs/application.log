@@ -6,3 +6,41 @@
 2024-06-13 12:22:56 DEBUG s.g.i.controllers.GetController - Authenticated user found: admin@admin.se
 2024-06-13 12:24:08 DEBUG s.g.i.controllers.GetController - Adding default admin users
 2024-06-13 12:24:18 DEBUG s.g.i.controllers.GetController - Authenticated user found: admin@admin.se
+2024-06-13 13:34:02 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-13 13:39:57 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-13 19:32:13 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-13 19:32:29 DEBUG s.g.i.controllers.GetController - Accessing the search page.
+2024-06-13 19:32:30 DEBUG s.g.i.controllers.PostController - Attempted to remove user, but login credentials were faulty
+2024-06-13 19:33:20 DEBUG s.g.i.controllers.PostController - Attempted to remove user, but login credentials were faulty
+2024-06-13 19:33:59 DEBUG s.g.i.controllers.PostController - Attempted to remove user, but login credentials were faulty
+2024-06-13 19:34:08 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-13 19:34:15 DEBUG s.g.i.controllers.GetController - Authenticated user found: admin@admin.se
+2024-06-13 19:34:18 DEBUG s.g.i.controllers.GetController - Accessing the search page.
+2024-06-13 19:34:57 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-13 19:35:04 DEBUG s.g.i.controllers.GetController - Authenticated user found: admin@admin.se
+2024-06-13 19:35:14 DEBUG s.g.i.controllers.GetController - Accessing the search page.
+2024-06-13 19:39:56 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-13 19:40:02 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-13 19:41:46 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-14 09:15:03 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-14 09:15:38 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-14 09:16:49 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-14 09:16:55 DEBUG s.g.i.controllers.GetController - Accessing the search page.
+2024-06-14 09:17:00 DEBUG s.g.i.controllers.PostController - Could not remove user: user is currently logged in with email: admin@admin.se
+2024-06-14 09:17:32 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-14 09:17:44 DEBUG s.g.i.controllers.GetController - Accessing the search page.
+2024-06-14 09:17:57 DEBUG s.g.i.controllers.GetController - Accessing the search page.
+2024-06-14 09:19:13 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-14 09:19:53 DEBUG s.g.i.controllers.GetController - Accessing the register user page.
+2024-06-14 09:21:16 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-14 09:21:21 DEBUG s.g.i.controllers.GetController - Accessing the register user page.
+2024-06-14 09:21:24 DEBUG s.g.i.controllers.GetController - Accessing the search page.
+2024-06-14 09:24:12 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-14 09:24:21 DEBUG s.g.i.controllers.GetController - Authenticated user found: admin@admin.se
+2024-06-14 09:24:27 DEBUG s.g.i.controllers.GetController - Accessing the search page.
+2024-06-14 09:24:32 DEBUG s.g.i.controllers.PostController - Could not remove user: user is currently logged in with email: admin@admin.se
+2024-06-14 09:24:36 DEBUG s.g.i.controllers.PostController - Could not remove user: user does not exist with email: admin@admin.s
+2024-06-14 09:24:42 DEBUG s.g.i.controllers.PostController - Could not remove user: user does not exist with email: awdawd
+2024-06-14 09:25:21 DEBUG s.g.i.controllers.GetController - Accessing the search page.
+2024-06-14 09:25:27 DEBUG s.g.i.controllers.GetController - removed user with username user@user.se
+2024-06-14 09:25:27 DEBUG s.g.i.controllers.PostController - Removed user with username user@user.se
