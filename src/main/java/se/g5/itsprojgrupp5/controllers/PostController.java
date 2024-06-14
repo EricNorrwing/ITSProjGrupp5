@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,25 +65,32 @@ public class PostController {
 
         if (principal instanceof UserDetails) {
             username = ((UserDetails) principal).getUsername();
-            logger.debug("Attempted to remove user, but login credentials were faulty");
         } else {
+            logger.debug("Attempted to remove user, but login credentials were faulty");
             return "search";
         }
 
-        UserDetails userToBeDeleted = customUserDetailsService.loadUserByUsername(emailDto.getEmail());
+        try {
+            UserDetails userToBeDeleted = customUserDetailsService.loadUserByUsername(emailDto.getEmail());
 
-        if (userToBeDeleted == null) {
+            if (username.equals(emailDto.getEmail())) {
+                model.addAttribute("message", "Could not remove user: " + emailDto.getEmail() + " as it is the current user.");
+                logger.debug("Could not remove user: user is currently logged in with email: {}", emailDto.getEmail());
+                return "removeUserFailure";
+            } else {
+                customUserDetailsService.deleteUser(emailDto.getEmail());
+                logger.debug("Removed user with username {}", emailDto.getEmail());
+                model.addAttribute("message", "User removed successfully.");
+                return "removeUserSuccess";  // Ensure this template exists to show the success message
+            }
+        } catch (UsernameNotFoundException ex) {
             model.addAttribute("message", "Could not find user with email: " + emailDto.getEmail());
             logger.debug("Could not remove user: user does not exist with email: {}", emailDto.getEmail());
             return "removeUserFailure";
-        } else if (username.equals(emailDto.getEmail())) {
-            model.addAttribute("message", "Could not remove user: " + emailDto.getEmail() + " as it is the current user.");
-            logger.debug("Could not remove user: user is currently logged in with email: {}", emailDto.getEmail());
+        } catch (Exception ex) {
+            model.addAttribute("message", "An error occurred while trying to remove the user.");
+            logger.error("An unexpected error occurred while removing user: {}", emailDto.getEmail(), ex);
             return "removeUserFailure";
-        } else {
-            customUserDetailsService.deleteUser(emailDto.getEmail());
-            logger.debug("removed user with username {}", emailDto.getEmail());
-            return "removeUserSuccess";
         }
 
     }
