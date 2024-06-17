@@ -8,24 +8,24 @@ import org.springframework.stereotype.Component;
 import se.g5.itsprojgrupp5.controllers.GetController;
 import se.g5.itsprojgrupp5.model.AppUser;
 import se.g5.itsprojgrupp5.repository.UserRepository;
+import se.g5.itsprojgrupp5.service.CustomUserDetailsService;
 
 @Component
 public class AddDefaultUser {
-    //TODO Different injection?
     private static final Logger logger = LoggerFactory.getLogger(GetController.class);
 
-    private final UserRepository userRepository;
+    private final CustomUserDetailsService customUserDetailsService;
     private final PasswordEncoder passwordEncoder;
 
-    public AddDefaultUser(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
+    public AddDefaultUser(UserRepository userRepository, CustomUserDetailsService customUserDetailsService, PasswordEncoder passwordEncoder) {
+        this.customUserDetailsService = customUserDetailsService;
         this.passwordEncoder = passwordEncoder;
     }
 
     @PostConstruct
     public void generateUsers() {
-        logger.debug("Adding default users");
-        userRepository.save(
+        logger.debug("Adding default admin users");
+        customUserDetailsService.saveUser(
                 new AppUser.AppUserBuilder()
                         .withEmail("admin@admin.se")
                         .withPassword(passwordEncoder.encode("adminpass"))
@@ -36,7 +36,7 @@ public class AddDefaultUser {
                         .build()
         );
 
-        userRepository.save(
+        customUserDetailsService.saveUser(
                 new AppUser.AppUserBuilder()
                         .withEmail("user@user.se")
                         .withPassword(passwordEncoder.encode("userpass"))

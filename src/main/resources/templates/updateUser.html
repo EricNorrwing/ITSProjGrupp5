@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Existing User</title>
+</head>
+<body>
+<h1>Update Existing User</h1>
+<form th:action="@{/update/user}" method="POST" th:object="${updateUserDTO}">
+
+    <input type="hidden" th:field="*{email}" />
+
+    <h3 th:text="'Updating user: ' + ${updateUserDTO.email}"></h3>
+
+    <label>Password:</label>
+    <input type="password" th:field="*{password}" />
+    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
+
+    <button type="submit">Update Password</button>
+</form>
+</body>
+</html>
