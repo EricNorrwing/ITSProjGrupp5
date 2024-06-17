@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.util.HtmlUtils;
 import se.g5.itsprojgrupp5.dto.EmailDTO;
 import se.g5.itsprojgrupp5.dto.UpdateUserDTO;
 import se.g5.itsprojgrupp5.dto.UserDTO;
@@ -19,6 +20,7 @@ import se.g5.itsprojgrupp5.model.AppUser;
 import se.g5.itsprojgrupp5.repository.UserRepository;
 import se.g5.itsprojgrupp5.service.CustomUserDetailsService;
 import se.g5.itsprojgrupp5.configurations.MaskingUtils;
+import se.g5.itsprojgrupp5.service.UserService;
 
 // TODO Add class comment
 @Controller
@@ -26,14 +28,14 @@ public class PostController {
 
     //TODO Different injection?
     private static final Logger logger = LoggerFactory.getLogger(PostController.class);
-
+    private static HtmlUtils htmlUtils;
     private final PasswordEncoder passwordEncoder;
-    private final CustomUserDetailsService customUserDetailsService;
+    private final UserService userService;
 
-    public PostController(PasswordEncoder passwordEncoder, UserRepository userRepository, CustomUserDetailsService customUserDetailsService) {
+
+    public PostController(PasswordEncoder passwordEncoder, UserService userService) {
         this.passwordEncoder = passwordEncoder;
-
-        this.customUserDetailsService = customUserDetailsService;
+        this.userService = userService;
     }
 
     //TODO CLEAN DATA WITH HTMLUTILS
@@ -43,8 +45,10 @@ public class PostController {
             logger.debug("Failed to add user because the input has errors");
             return "registerUser";
         }
-        customUserDetailsService.saveUser(new AppUser.AppUserBuilder()
-                .withEmail(userDTO.getEmail())
+
+
+        userService.saveUser(new AppUser.AppUserBuilder()
+                .withEmail(HtmlUtils.htmlEscape(userDTO.getEmail()))
                 .withPassword(passwordEncoder.encode(userDTO.getPassword()))
                 .withRole(userDTO.getRole())
                 .withName(userDTO.getName())
@@ -78,7 +82,7 @@ public class PostController {
                 logger.debug("Could not remove user: user is currently logged in with email: {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
                 return "search";
             } else {
-                customUserDetailsService.deleteUser(emailDto.getEmail());
+                userService.deleteUser(HtmlUtils.htmlEscape(emailDto.getEmail()));
                 logger.debug("Removed user with email {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
                 model.addAttribute("message", "User removed successfully: " + emailDto.getEmail());
                 return "removeUserSuccess";
@@ -104,9 +108,9 @@ public class PostController {
         }
 
         try {
-            AppUser user = customUserDetailsService.loadUserByUsername(userDTO.getEmail());
-            user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-            customUserDetailsService.saveUser(user);
+            AppUser user = userService.loadUserByUsername(userDTO.getEmail());
+            user.setPassword(passwordEncoder.encode(HtmlUtils.htmlEscape(userDTO.getPassword())));
+            userService.saveUser(user);
 
             model.addAttribute("message", "Successfully updated user " + userDTO.getEmail() + " with password " + userDTO.getPassword());
             logger.debug("Successfully updated user {} with new password", MaskingUtils.anonymizeEmail(user.getEmail()));
