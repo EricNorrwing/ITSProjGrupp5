@@ -18,6 +18,7 @@ import se.g5.itsprojgrupp5.dto.UserDTO;
 import se.g5.itsprojgrupp5.model.AppUser;
 import se.g5.itsprojgrupp5.repository.UserRepository;
 import se.g5.itsprojgrupp5.service.CustomUserDetailsService;
+import se.g5.itsprojgrupp5.configurations.MaskingUtils;
 
 // TODO Add class comment
 @Controller
@@ -52,7 +53,7 @@ public class PostController {
                 .build());
 
         model.addAttribute("savedUser", userDTO);
-        logger.debug("successfully added user");
+        logger.debug("Successfully added user {}", MaskingUtils.anonymizeEmail(userDTO.getEmail()));
         return "registerSuccess";
     }
 
@@ -74,21 +75,21 @@ public class PostController {
         try {
             if (username.equals(emailDto.getEmail())) {
                 model.addAttribute("message", "Could not remove user: " + emailDto.getEmail() + " as it is the current user.");
-                logger.debug("Could not remove user: user is currently logged in with email: {}", emailDto.getEmail());
+                logger.debug("Could not remove user: user is currently logged in with email: {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
                 return "search";
             } else {
                 customUserDetailsService.deleteUser(emailDto.getEmail());
-                logger.debug("Removed user with username {}", emailDto.getEmail());
+                logger.debug("Removed user with email {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
                 model.addAttribute("message", "User removed successfully: " + emailDto.getEmail());
                 return "removeUserSuccess";
             }
         } catch (UsernameNotFoundException ex) {
             model.addAttribute("message", "Could not find user with email: " + emailDto.getEmail());
-            logger.debug("Could not remove user: user does not exist with email: {}", emailDto.getEmail());
+            logger.debug("Could not remove user: user does not exist with email: {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
             return "search";
         } catch (Exception ex) {
             model.addAttribute("message", "An error occurred while trying to remove the user.");
-            logger.error("An unexpected error occurred while removing user: {}", emailDto.getEmail(), ex);
+            logger.error("An unexpected error occurred while removing user: {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()), ex);
             return "search";
         }
 
@@ -108,15 +109,15 @@ public class PostController {
             customUserDetailsService.saveUser(user);
 
             model.addAttribute("message", "Successfully updated user " + userDTO.getEmail() + " with password " + userDTO.getPassword());
-            logger.debug("Successfully updated user {} with new password", user.getEmail());
+            logger.debug("Successfully updated user {} with new password", MaskingUtils.anonymizeEmail(user.getEmail()));
             return "updateSuccess";
         } catch (UsernameNotFoundException ex) {
             model.addAttribute("message", "User not found: " + userDTO.getEmail());
-            logger.debug("User not found: {}", userDTO.getEmail());
+            logger.debug("User not found: {}", MaskingUtils.anonymizeEmail(userDTO.getEmail()));
             return "updateUser";
         } catch (Exception ex) {
             model.addAttribute("message", "An error occurred while updating the user.");
-            logger.error("An unexpected error occurred while updating user: {}", userDTO.getEmail(), ex);
+            logger.error("An unexpected error occurred while updating user: {}", MaskingUtils.anonymizeEmail(userDTO.getEmail()), ex);
             return "updateUser";
         }
     }
