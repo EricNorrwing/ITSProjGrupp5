@@ -75,7 +75,7 @@ public class GetController {
         } else {
             model.addAttribute("email", new EmailDTO());
             model.addAttribute("message", "Error, could not find user by name: " + emailDTO.getEmail());
-            logger.debug("Could not find user by this email: {}", MaskingUtils.anonymizeEmail(emailDTO.getEmail()));
+            logger.warn("Could not find user by this email: {}", MaskingUtils.anonymizeEmail(emailDTO.getEmail()));
             return "search";
         }
 

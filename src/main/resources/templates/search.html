@@ -10,6 +10,7 @@
     <h1 th:text="${message}"></h1>
     <label>E-mail:</label>
     <input type="text" th:field="*{email}" required/><br/>
+    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email format</span><br/>
     <button type="button" onclick="submitForm('/remove/user', 'post')">Delete User</button>
     <button type="button" onclick="submitForm('/update/user', 'get')">Update User</button>
 </form>

@@ -42,7 +42,7 @@ public class PostController {
     @PostMapping("/register/user")
     public String createUser (@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult result, Model model) {
         if(result.hasErrors()) {
-            logger.debug("Failed to add user because the input has errors");
+            logger.warn("Failed to add user because the input has errors");
             return "registerUser";
         }
 
@@ -64,46 +64,35 @@ public class PostController {
 
     //TODO CLEAN DATA WITH HTMLUTILS
     @PostMapping("/remove/user")
-    public String deleteUser(@ModelAttribute("email") EmailDTO emailDto, Model model) {
+    public String deleteUser(@ModelAttribute("email") @Valid EmailDTO emailDto, BindingResult result, Model model) {
 
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username;
-
-        if (principal instanceof UserDetails) {
-            username = ((UserDetails) principal).getUsername();
-        } else {
-            logger.debug("Attempted to remove user, but login credentials were faulty");
-            return "search";
+        if (result.hasErrors()) {
+            return "search"; // or appropriate error handling logic
         }
+
+
 
         try {
-            if (username.equals(emailDto.getEmail())) {
-                model.addAttribute("message", "Could not remove user: " + emailDto.getEmail() + " as it is the current user.");
-                logger.debug("Could not remove user: user is currently logged in with email: {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
-                return "search";
-            } else {
-                userService.deleteUser(HtmlUtils.htmlEscape(emailDto.getEmail()));
-                logger.debug("Removed user with email {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
-                model.addAttribute("message", "User removed successfully: " + emailDto.getEmail());
-                return "removeUserSuccess";
-            }
+            userService.deleteUser(HtmlUtils.htmlEscape(emailDto.getEmail()));
+            logger.debug("Removed user with email {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
+            model.addAttribute("message", "User removed successfully: " + emailDto.getEmail());
+            return "removeUserSuccess";
         } catch (UsernameNotFoundException ex) {
             model.addAttribute("message", "Could not find user with email: " + emailDto.getEmail());
-            logger.debug("Could not remove user: user does not exist with email: {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
+            logger.warn("Could not remove user: user does not exist with email: {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
             return "search";
         } catch (Exception ex) {
-            model.addAttribute("message", "An error occurred while trying to remove the user.");
-            logger.error("An unexpected error occurred while removing user: {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()), ex);
+            model.addAttribute("message", "User does not exist.");
+            logger.warn("An unexpected error occurred while removing user: {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
             return "search";
         }
-
     }
 
     //TODO HTMLUTILS
     @PostMapping("/update/user")
     public String updateUser(@Valid @ModelAttribute("updateUserDTO") UpdateUserDTO userDTO, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            logger.debug("Failed to update user because the input has errors");
+            logger.warn("Failed to update user because the input has errors");
             return "updateUser";
         }
 
@@ -117,11 +106,11 @@ public class PostController {
             return "updateSuccess";
         } catch (UsernameNotFoundException ex) {
             model.addAttribute("message", "User not found: " + userDTO.getEmail());
-            logger.debug("User not found: {}", MaskingUtils.anonymizeEmail(userDTO.getEmail()));
+            logger.warn("User not found: {}", MaskingUtils.anonymizeEmail(userDTO.getEmail()));
             return "updateUser";
         } catch (Exception ex) {
             model.addAttribute("message", "An error occurred while updating the user.");
-            logger.error("An unexpected error occurred while updating user: {}", MaskingUtils.anonymizeEmail(userDTO.getEmail()), ex);
+            logger.warn("An unexpected error occurred while updating user: {}", MaskingUtils.anonymizeEmail(userDTO.getEmail()), ex);
             return "updateUser";
         }
     }
