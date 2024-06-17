@@ -54,6 +54,7 @@ public class PostController {
         return "registerSuccess";
     }
 
+
     @PostMapping("/remove/user")
     public String deleteUser(@ModelAttribute("email") EmailDTO emailDto, Model model) {
 
@@ -82,7 +83,8 @@ public class PostController {
             logger.debug("removed user with username {}", emailDto.getEmail());
             return "removeUserSuccess";
         }
+
     }
-}
+    }
 
 

@@ -6,8 +6,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import se.g5.itsprojgrupp5.configurations.MaskingUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RestController;
 import se.g5.itsprojgrupp5.dto.EmailDTO;
 import se.g5.itsprojgrupp5.dto.UserDTO;
 import org.slf4j.Logger;
@@ -22,7 +23,6 @@ public class GetController {
 
     //TODO Different injection?
     private static final Logger logger = LoggerFactory.getLogger(GetController.class);
-    MaskingUtils maskingUtils = new MaskingUtils();
 
     @GetMapping("/register/user")
     public String registerUser(Model model) {
@@ -51,7 +51,7 @@ public class GetController {
         }
 
 
-        model.addAttribute("message", "Hej " + maskingUtils.anonymizeEmail(username) + ", välkommen!");
+        model.addAttribute("message", "Hej " + username + ", välkommen!");
         return "home";
     }
 
@@ -79,27 +79,6 @@ public class GetController {
     public String adminpage () {
         return "adminPage";
     }
-
-//    @Controller
-//    public class EmailController {
-//
-//        @GetMapping("/anonymize/Email")
-//        public String showEmailForm() {
-//            return "emailForm";
-//        }
-
-//        @PostMapping("/anonymize/Email")
-//        public String anonymizeEmail(@RequestParam("email") String email, Model model) {
-//            try {
-//                String anonymizedEmail = MaskingUtils.anonymizeEmail(email);
-//                model.addAttribute("anonymizedEmail", anonymizedEmail);
-//            } catch (IllegalArgumentException e) {
-//                model.addAttribute("error", e.getMessage());
-//            }
-//            return "emailForm";
-//        }
-//    }
-
 }
 
 
