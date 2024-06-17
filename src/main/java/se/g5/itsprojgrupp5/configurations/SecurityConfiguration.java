@@ -50,11 +50,14 @@ public class SecurityConfiguration {
                         authorizeRequests
                                 .requestMatchers("/").hasAnyAuthority("USER", "ADMIN")
                                 .requestMatchers("/**").hasAuthority("ADMIN")
-                                .anyRequest().authenticated()
+                                .anyRequest()
+                                .authenticated()
+
                 )
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(form -> form
                         .defaultSuccessUrl("/"));
         return http.build();
     }
+   
 }

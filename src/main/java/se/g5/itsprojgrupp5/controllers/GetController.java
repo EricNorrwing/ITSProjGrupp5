@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import se.g5.itsprojgrupp5.configurations.MaskingUtils;
 import se.g5.itsprojgrupp5.dto.EmailDTO;
 import se.g5.itsprojgrupp5.dto.UpdateUserDTO;
 import se.g5.itsprojgrupp5.dto.UserDTO;
@@ -23,6 +24,7 @@ public class GetController {
 
     //TODO Different injection?
     private static final Logger logger = LoggerFactory.getLogger(GetController.class);
+    MaskingUtils maskingUtils = new MaskingUtils();
 
     private final CustomUserDetailsService customUserDetailsService;
 
@@ -58,7 +60,7 @@ public class GetController {
             logger.debug("Authenticated principal found: {}", username);
         }
 
-        model.addAttribute("message", "Hej " + username + ", välkommen!");
+        model.addAttribute("message", "Hej " + maskingUtils.anonymizeEmail(username) + ", välkommen!");
         return "home";
     }
 
