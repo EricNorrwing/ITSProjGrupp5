@@ -2505,3 +2505,11 @@ java.lang.IllegalStateException: Neither BindingResult nor plain target object f
 2024-06-17 11:05:13 DEBUG s.g.i.controllers.GetController - saved user with username admin@admin.se
 2024-06-17 11:05:13 DEBUG s.g.i.controllers.GetController - saved user with username user@user.se
 2024-06-17 11:05:14 DEBUG s.g.i.controllers.GetController - Accessing the admin page.
+2024-06-17 11:12:23 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-17 11:12:23 DEBUG s.g.i.controllers.GetController - saved user with username admin@admin.se
+2024-06-17 11:12:23 DEBUG s.g.i.controllers.GetController - saved user with username user@user.se
+2024-06-17 11:12:24 DEBUG s.g.i.controllers.PostController - Failed to add user because the input has errors
+2024-06-17 11:15:47 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-17 11:15:48 DEBUG s.g.i.controllers.GetController - saved user with username admin@admin.se
+2024-06-17 11:15:48 DEBUG s.g.i.controllers.GetController - saved user with username user@user.se
+2024-06-17 11:15:48 DEBUG s.g.i.controllers.PostController - Failed to add user because the input has errors
