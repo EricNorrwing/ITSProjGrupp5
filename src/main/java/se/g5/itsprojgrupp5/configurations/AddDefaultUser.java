@@ -9,23 +9,24 @@ import se.g5.itsprojgrupp5.controllers.GetController;
 import se.g5.itsprojgrupp5.model.AppUser;
 import se.g5.itsprojgrupp5.repository.UserRepository;
 import se.g5.itsprojgrupp5.service.CustomUserDetailsService;
+import se.g5.itsprojgrupp5.service.UserService;
 
 @Component
 public class AddDefaultUser {
     private static final Logger logger = LoggerFactory.getLogger(GetController.class);
 
-    private final CustomUserDetailsService customUserDetailsService;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
-    public AddDefaultUser(UserRepository userRepository, CustomUserDetailsService customUserDetailsService, PasswordEncoder passwordEncoder) {
-        this.customUserDetailsService = customUserDetailsService;
+    public AddDefaultUser(UserService userService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
         this.passwordEncoder = passwordEncoder;
     }
 
     @PostConstruct
     public void generateUsers() {
         logger.debug("Adding default admin users");
-        customUserDetailsService.saveUser(
+        userService.saveUser(
                 new AppUser.AppUserBuilder()
                         .withEmail("admin@admin.se")
                         .withPassword(passwordEncoder.encode("adminpass"))
@@ -36,7 +37,7 @@ public class AddDefaultUser {
                         .build()
         );
 
-        customUserDetailsService.saveUser(
+        userService.saveUser(
                 new AppUser.AppUserBuilder()
                         .withEmail("user@user.se")
                         .withPassword(passwordEncoder.encode("userpass"))

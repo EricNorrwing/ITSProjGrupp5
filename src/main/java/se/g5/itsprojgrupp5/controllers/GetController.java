@@ -3,6 +3,7 @@ package se.g5.itsprojgrupp5.controllers;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +15,9 @@ import se.g5.itsprojgrupp5.dto.UpdateUserDTO;
 import se.g5.itsprojgrupp5.dto.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import se.g5.itsprojgrupp5.model.AppUser;
 import se.g5.itsprojgrupp5.repository.UserRepository;
 import se.g5.itsprojgrupp5.service.CustomUserDetailsService;
-import se.g5.itsprojgrupp5.configurations.MaskingUtils;
+import se.g5.itsprojgrupp5.service.UserService;
 
 // TODO Add class comment
 @Controller
@@ -27,11 +27,10 @@ public class GetController {
     private static final Logger logger = LoggerFactory.getLogger(GetController.class);
     MaskingUtils maskingUtils = new MaskingUtils();
 
-    private final CustomUserDetailsService customUserDetailsService;
+    private final UserService userService;
 
-    public GetController(PasswordEncoder passwordEncoder, UserRepository userRepository, CustomUserDetailsService customUserDetailsService) {
-
-        this.customUserDetailsService = customUserDetailsService;
+    public GetController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/register/user")
@@ -66,7 +65,8 @@ public class GetController {
 
     @GetMapping("/update/user")
     public String updateUserForm(@ModelAttribute("emailDTO") EmailDTO emailDTO, Model model) {
-        if(customUserDetailsService.exists(emailDTO.getEmail())) {
+
+        if(userService.exists(emailDTO.getEmail())) {
             UpdateUserDTO updateUserDTO = new UpdateUserDTO();
             updateUserDTO.setEmail(emailDTO.getEmail());
             model.addAttribute("updateUserDTO", updateUserDTO);
