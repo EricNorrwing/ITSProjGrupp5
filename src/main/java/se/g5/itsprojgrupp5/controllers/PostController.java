@@ -95,6 +95,7 @@ public class PostController {
 
     }
 
+    //TODO HTMLUTILS
     @PostMapping("/update/user")
     public String updateUser(@Valid @ModelAttribute("updateUserDTO") UpdateUserDTO userDTO, BindingResult result, Model model) {
         if (result.hasErrors()) {
