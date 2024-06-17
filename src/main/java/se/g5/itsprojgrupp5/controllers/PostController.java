@@ -82,7 +82,7 @@ public class PostController {
             logger.warn("Could not remove user: user does not exist with email: {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
             return "search";
         } catch (Exception ex) {
-            model.addAttribute("message", "User does not exist.");
+            model.addAttribute("message", "Could not find user with email: " + emailDto.getEmail());
             logger.warn("An unexpected error occurred while removing user: {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
             return "search";
         }
