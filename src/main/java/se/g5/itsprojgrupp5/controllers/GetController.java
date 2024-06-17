@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import se.g5.itsprojgrupp5.model.AppUser;
 import se.g5.itsprojgrupp5.repository.UserRepository;
 import se.g5.itsprojgrupp5.service.CustomUserDetailsService;
+import se.g5.itsprojgrupp5.configurations.MaskingUtils;
 
 // TODO Add class comment
 @Controller
@@ -43,8 +44,7 @@ public class GetController {
     @GetMapping("/register/success")
     public String registerSuccess(@ModelAttribute("user") UserDTO userDTO, Model model) {
         model.addAttribute("user", new UserDTO());
-        logger.debug("Registration successful for user: {}", userDTO.getEmail()); //?????????????????????? MAYBE
-
+        logger.debug("Registration successful for user: {}", MaskingUtils.anonymizeEmail(userDTO.getEmail()));
         return "registerUser";
     }
 
@@ -54,10 +54,10 @@ public class GetController {
         String username;
         if (principal instanceof UserDetails) {
             username = ((UserDetails) principal).getUsername();
-            logger.debug("Authenticated user found: {}", username);
+            logger.debug("Authenticated user found: {}", MaskingUtils.anonymizeEmail(username));
         } else {
             username = principal.toString();
-            logger.debug("Authenticated principal found: {}", username);
+            logger.debug("Authenticated principal found: {}", MaskingUtils.anonymizeEmail(username));
         }
 
         model.addAttribute("message", "Hej " + maskingUtils.anonymizeEmail(username) + ", välkommen!");
@@ -70,12 +70,12 @@ public class GetController {
             UpdateUserDTO updateUserDTO = new UpdateUserDTO();
             updateUserDTO.setEmail(emailDTO.getEmail());
             model.addAttribute("updateUserDTO", updateUserDTO);
-            logger.debug("Accessing the updateUser form with email: {}", emailDTO.getEmail());
+            logger.debug("Accessing the updateUser form with email: {}", MaskingUtils.anonymizeEmail(emailDTO.getEmail()));
             return "updateUser";
         } else {
             model.addAttribute("email", new EmailDTO());
             model.addAttribute("message", "Error, could not find user by name: " + emailDTO.getEmail());
-            logger.debug("Could not find user by this username: {}", emailDTO.getEmail());
+            logger.debug("Could not find user by this email: {}", MaskingUtils.anonymizeEmail(emailDTO.getEmail()));
             return "search";
         }
 
@@ -91,7 +91,6 @@ public class GetController {
 
     @GetMapping("/logout-success")
     public String logoutSuccess(Model model) {
-
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username;
         if (principal instanceof UserDetails) {
@@ -99,7 +98,9 @@ public class GetController {
         } else {
             username = principal.toString();
         }
-        logger.debug("User logged out: {}", username);
+
+        logger.debug("User logged out: {}", MaskingUtils.anonymizeEmail(username));
+
         model.addAttribute("message", "Du är utloggad!");
         return "logout";
     }
