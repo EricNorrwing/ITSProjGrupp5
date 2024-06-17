@@ -2444,3 +2444,48 @@ java.lang.IllegalStateException: Neither BindingResult nor plain target object f
 2024-06-14 14:26:08 DEBUG s.g.i.controllers.GetController - Accessing the updateUser form with email: user@user.se
 2024-06-14 14:26:10 DEBUG s.g.i.controllers.GetController - saved user with username user@user.se
 2024-06-14 14:26:10 DEBUG s.g.i.controllers.PostController - Successfully updated user user@user.se with new password
+2024-06-17 10:00:10 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-17 10:00:11 DEBUG s.g.i.controllers.GetController - saved user with username admin@admin.se
+2024-06-17 10:00:11 DEBUG s.g.i.controllers.GetController - saved user with username user@user.se
+2024-06-17 10:03:15 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-17 10:03:15 DEBUG s.g.i.controllers.GetController - saved user with username admin@admin.se
+2024-06-17 10:03:15 DEBUG s.g.i.controllers.GetController - saved user with username user@user.se
+2024-06-17 10:03:27 DEBUG s.g.i.controllers.GetController - Accessing the search page.
+2024-06-17 10:03:30 DEBUG s.g.i.controllers.GetController - Accessing the register user page.
+2024-06-17 10:03:43 DEBUG s.g.i.controllers.PostController - Failed to add user because the input has errors
+2024-06-17 10:03:48 DEBUG s.g.i.controllers.PostController - Failed to add user because the input has errors
+2024-06-17 10:03:54 DEBUG s.g.i.controllers.GetController - saved user with username eric@eric.se
+2024-06-17 10:03:54 DEBUG s.g.i.controllers.PostController - successfully added user
+2024-06-17 10:12:18 DEBUG s.g.i.controllers.GetController - Authenticated user found: eric@eric.se
+2024-06-17 10:45:00 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-17 10:45:00 DEBUG s.g.i.controllers.GetController - saved user with username admin@admin.se
+2024-06-17 10:45:00 DEBUG s.g.i.controllers.GetController - saved user with username user@user.se
+2024-06-17 10:45:23 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-17 10:45:23 DEBUG s.g.i.controllers.GetController - saved user with username admin@admin.se
+2024-06-17 10:45:23 DEBUG s.g.i.controllers.GetController - saved user with username user@user.se
+2024-06-17 10:45:38 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-17 10:45:38 DEBUG s.g.i.controllers.GetController - saved user with username admin@admin.se
+2024-06-17 10:45:38 DEBUG s.g.i.controllers.GetController - saved user with username user@user.se
+2024-06-17 10:45:39 DEBUG s.g.i.controllers.GetController - Authenticated user found: user@user.se
+2024-06-17 10:47:12 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-17 10:47:12 DEBUG s.g.i.controllers.GetController - saved user with username admin@admin.se
+2024-06-17 10:47:12 DEBUG s.g.i.controllers.GetController - saved user with username user@user.se
+2024-06-17 10:47:53 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-17 10:47:53 DEBUG s.g.i.controllers.GetController - saved user with username admin@admin.se
+2024-06-17 10:47:53 DEBUG s.g.i.controllers.GetController - saved user with username user@user.se
+2024-06-17 10:49:33 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-17 10:49:33 DEBUG s.g.i.controllers.GetController - saved user with username admin@admin.se
+2024-06-17 10:49:33 DEBUG s.g.i.controllers.GetController - saved user with username user@user.se
+2024-06-17 10:49:34 DEBUG s.g.i.controllers.GetController - Authenticated user found: user@user.se
+2024-06-17 10:50:16 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-17 10:50:16 DEBUG s.g.i.controllers.GetController - saved user with username admin@admin.se
+2024-06-17 10:50:16 DEBUG s.g.i.controllers.GetController - saved user with username user@user.se
+2024-06-17 10:50:17 DEBUG s.g.i.controllers.GetController - Authenticated user found: user@user.se
+2024-06-17 10:51:04 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-17 10:51:04 DEBUG s.g.i.controllers.GetController - saved user with username admin@admin.se
+2024-06-17 10:51:04 DEBUG s.g.i.controllers.GetController - saved user with username user@user.se
+2024-06-17 10:51:05 DEBUG s.g.i.controllers.GetController - Authenticated user found: user@user.se
+2024-06-17 10:51:13 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-17 10:51:13 DEBUG s.g.i.controllers.GetController - saved user with username admin@admin.se
+2024-06-17 10:51:13 DEBUG s.g.i.controllers.GetController - saved user with username user@user.se
+2024-06-17 10:51:14 DEBUG s.g.i.controllers.GetController - Authenticated user found: user@user.se
