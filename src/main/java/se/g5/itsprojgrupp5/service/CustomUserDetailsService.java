@@ -28,11 +28,13 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
 
+    //TODO catch the exception?
     @Override
     public AppUser loadUserByUsername(String email) throws UsernameNotFoundException {
         AppUser user = userRepository.findByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException("No user found with username: " + email);
+            //TODO LOGGER
         }
         return user;
     }
