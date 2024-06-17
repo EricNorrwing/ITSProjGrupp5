@@ -2489,3 +2489,19 @@ java.lang.IllegalStateException: Neither BindingResult nor plain target object f
 2024-06-17 10:51:13 DEBUG s.g.i.controllers.GetController - saved user with username admin@admin.se
 2024-06-17 10:51:13 DEBUG s.g.i.controllers.GetController - saved user with username user@user.se
 2024-06-17 10:51:14 DEBUG s.g.i.controllers.GetController - Authenticated user found: user@user.se
+2024-06-17 11:04:07 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-17 11:04:07 DEBUG s.g.i.controllers.GetController - saved user with username admin@admin.se
+2024-06-17 11:04:07 DEBUG s.g.i.controllers.GetController - saved user with username user@user.se
+2024-06-17 11:04:21 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-17 11:04:21 DEBUG s.g.i.controllers.GetController - saved user with username admin@admin.se
+2024-06-17 11:04:21 DEBUG s.g.i.controllers.GetController - saved user with username user@user.se
+2024-06-17 11:04:32 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-17 11:04:32 DEBUG s.g.i.controllers.GetController - saved user with username admin@admin.se
+2024-06-17 11:04:32 DEBUG s.g.i.controllers.GetController - saved user with username user@user.se
+2024-06-17 11:04:41 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-17 11:04:41 DEBUG s.g.i.controllers.GetController - saved user with username admin@admin.se
+2024-06-17 11:04:41 DEBUG s.g.i.controllers.GetController - saved user with username user@user.se
+2024-06-17 11:05:13 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-17 11:05:13 DEBUG s.g.i.controllers.GetController - saved user with username admin@admin.se
+2024-06-17 11:05:13 DEBUG s.g.i.controllers.GetController - saved user with username user@user.se
+2024-06-17 11:05:14 DEBUG s.g.i.controllers.GetController - Accessing the admin page.
