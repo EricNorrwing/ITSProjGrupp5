@@ -67,7 +67,7 @@ public class PostController {
     public String deleteUser(@ModelAttribute("email") @Valid EmailDTO emailDto, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
-            return "search"; // or appropriate error handling logic
+            return "search";
         }
 
 
