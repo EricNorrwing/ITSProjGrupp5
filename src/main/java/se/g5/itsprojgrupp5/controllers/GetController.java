@@ -89,22 +89,6 @@ public class GetController {
         return "search";
     }
 
-    @GetMapping("/logout-success")
-    public String logoutSuccess(Model model) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username;
-        if (principal instanceof UserDetails) {
-            username = ((UserDetails) principal).getUsername();
-        } else {
-            username = principal.toString();
-        }
-
-        logger.debug("User logged out: {}", MaskingUtils.anonymizeEmail(username));
-
-        model.addAttribute("message", "Du är utloggad!");
-        return "logout";
-    }
-
     @GetMapping("/admin/page")
     public String adminpage () {
         logger.debug("Accessing the admin page.");
