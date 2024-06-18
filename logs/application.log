@@ -8109,3 +8109,33 @@ jakarta.validation.ConstraintViolationException: deleteUser.emailDto.email: Not 
 2024-06-18 13:11:54 DEBUG s.g.i.controllers.PostController - Removed user with email u**r@user.se
 2024-06-18 13:11:54 WARN  s.g.i.controllers.PostController - Failed to add user because the input has errors
 2024-06-18 13:11:54 WARN  s.g.i.controllers.PostController - Failed to remove user because the input has errors
+2024-06-18 13:18:44 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-18 13:18:44 DEBUG s.g.i.controllers.GetController - saved user with username a***n@admin.se
+2024-06-18 13:18:44 DEBUG s.g.i.controllers.GetController - saved user with username u**r@user.se
+2024-06-18 13:18:47 DEBUG s.g.i.controllers.GetController - Accessing the admin page.
+2024-06-18 13:18:47 DEBUG s.g.i.controllers.GetController - Accessing the register user page.
+2024-06-18 13:18:48 WARN  s.g.i.controllers.PostController - Failed to add user because the input has errors
+2024-06-18 13:18:48 DEBUG s.g.i.controllers.GetController - removed user with username u**r@user.se
+2024-06-18 13:18:48 DEBUG s.g.i.controllers.PostController - Removed user with email u**r@user.se
+2024-06-18 13:18:48 WARN  s.g.i.controllers.PostController - Failed to add user because the input has errors
+2024-06-18 13:18:49 WARN  s.g.i.controllers.PostController - Failed to remove user because the input has errors
+2024-06-18 13:52:39 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-18 13:52:39 DEBUG s.g.i.controllers.GetController - saved user with username a***n@admin.se
+2024-06-18 13:52:39 DEBUG s.g.i.controllers.GetController - saved user with username u**r@user.se
+2024-06-18 13:52:42 DEBUG s.g.i.controllers.GetController - Accessing the admin page.
+2024-06-18 13:52:42 DEBUG s.g.i.controllers.GetController - Accessing the register user page.
+2024-06-18 13:52:42 WARN  s.g.i.controllers.PostController - Failed to add user because the input has errors
+2024-06-18 13:52:43 DEBUG s.g.i.controllers.GetController - removed user with username u**r@user.se
+2024-06-18 13:52:43 DEBUG s.g.i.controllers.PostController - Removed user with email u**r@user.se
+2024-06-18 13:52:43 WARN  s.g.i.controllers.PostController - Failed to add user because the input has errors
+2024-06-18 13:52:43 WARN  s.g.i.controllers.PostController - Failed to remove user because the input has errors
+2024-06-18 13:53:11 DEBUG s.g.i.controllers.GetController - Adding default admin users
+2024-06-18 13:53:11 DEBUG s.g.i.controllers.GetController - saved user with username a***n@admin.se
+2024-06-18 13:53:11 DEBUG s.g.i.controllers.GetController - saved user with username u**r@user.se
+2024-06-18 13:53:14 DEBUG s.g.i.controllers.GetController - Accessing the admin page.
+2024-06-18 13:53:14 DEBUG s.g.i.controllers.GetController - Accessing the register user page.
+2024-06-18 13:53:15 WARN  s.g.i.controllers.PostController - Failed to add user because the input has errors
+2024-06-18 13:53:15 DEBUG s.g.i.controllers.GetController - removed user with username u**r@user.se
+2024-06-18 13:53:15 DEBUG s.g.i.controllers.PostController - Removed user with email u**r@user.se
+2024-06-18 13:53:15 WARN  s.g.i.controllers.PostController - Failed to add user because the input has errors
+2024-06-18 13:53:15 WARN  s.g.i.controllers.PostController - Failed to remove user because the input has errors

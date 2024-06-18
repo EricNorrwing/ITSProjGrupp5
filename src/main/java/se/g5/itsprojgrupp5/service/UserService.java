@@ -14,6 +14,10 @@ import se.g5.itsprojgrupp5.repository.UserRepository;
 import java.util.Collection;
 import java.util.Collections;
 
+/*
+Layer for interacting with user objects.
+ */
+
 @Service
 public class UserService {
 

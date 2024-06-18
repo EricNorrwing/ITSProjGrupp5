@@ -25,7 +25,9 @@ import se.g5.itsprojgrupp5.service.UserService;
 
 import java.security.Principal;
 
-// TODO Add class comment
+/*
+Post endpoints.
+ */
 @Controller
 public class PostController {
 

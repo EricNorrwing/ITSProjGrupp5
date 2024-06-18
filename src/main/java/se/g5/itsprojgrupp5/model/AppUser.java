@@ -8,6 +8,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+/*
+User of type UserDetails.
+AppUser is Default User for spring security.
+Replaces spring security cure user.
+ */
+
 @Entity
 @Table(name = "users")
 public class AppUser implements UserDetails {
