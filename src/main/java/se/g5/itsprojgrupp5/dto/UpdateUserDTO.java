@@ -1,8 +1,16 @@
 package se.g5.itsprojgrupp5.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
 public class UpdateUserDTO {
 
+    @NotEmpty
+    @Email(message="Not a valid email adress")
     private String email;
+    @NotEmpty
+    @Size(min= 4, message="Password needs to be 4 letters or longer")
     private String password;
 
     public String getEmail() {

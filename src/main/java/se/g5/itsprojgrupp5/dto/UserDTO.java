@@ -1,10 +1,7 @@
 package se.g5.itsprojgrupp5.dto;
 
 import jakarta.persistence.Column;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.NumberFormat;
 
 //TODO CLASS COMMENT
@@ -22,7 +19,8 @@ public class UserDTO {
     private String name;
     @NotEmpty
     private String surname;
-    @Digits(integer = 3, fraction = 0, message="Must be a reasonable value (Below 999)")
+    @Min(1)
+    @Max(100)
     private int age;
 
     public String getName() {
