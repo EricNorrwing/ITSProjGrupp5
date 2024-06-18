@@ -1,7 +1,12 @@
 package se.g5.itsprojgrupp5.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+
 public class EmailDTO {
 
+    @NotEmpty
+    @Email(message="Not a valid email adress")
     private String email;
 
     public String getEmail() {

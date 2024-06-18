@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import se.g5.itsprojgrupp5.configurations.MaskingUtils;
 import se.g5.itsprojgrupp5.controllers.GetController;
 import se.g5.itsprojgrupp5.model.AppUser;
 import se.g5.itsprojgrupp5.repository.UserRepository;
@@ -25,13 +26,13 @@ public class UserService {
 
     public void saveUser (AppUser user) {
         userRepository.save(user);
-        logger.debug("saved user with username {}", user.getEmail());
+        logger.debug("saved user with username {}", MaskingUtils.anonymizeEmail(user.getEmail()));
     }
 
     public void deleteUser (String email) {
         AppUser user = userRepository.findByEmail(email);
         userRepository.delete(user);
-        logger.debug("removed user with username {}", user.getEmail());
+        logger.debug("removed user with username {}", MaskingUtils.anonymizeEmail(user.getEmail()));
     }
 
     public boolean exists (String email) {

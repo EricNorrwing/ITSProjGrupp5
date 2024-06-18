@@ -1,12 +1,12 @@
 
 package se.g5.itsprojgrupp5.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import se.g5.itsprojgrupp5.configurations.MaskingUtils;
@@ -15,17 +15,13 @@ import se.g5.itsprojgrupp5.dto.UpdateUserDTO;
 import se.g5.itsprojgrupp5.dto.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import se.g5.itsprojgrupp5.repository.UserRepository;
-import se.g5.itsprojgrupp5.service.CustomUserDetailsService;
 import se.g5.itsprojgrupp5.service.UserService;
 
 // TODO Add class comment
 @Controller
 public class GetController {
 
-    //TODO Different injection?
     private static final Logger logger = LoggerFactory.getLogger(GetController.class);
-    MaskingUtils maskingUtils = new MaskingUtils();
 
     private final UserService userService;
 
@@ -59,7 +55,7 @@ public class GetController {
             logger.debug("Authenticated principal found: {}", MaskingUtils.anonymizeEmail(username));
         }
 
-        model.addAttribute("message", "Hej " + maskingUtils.anonymizeEmail(username) + ", välkommen!");
+        model.addAttribute("message", "Hej " + MaskingUtils.anonymizeEmail(username) + ", välkommen!");
         return "home";
     }
 
@@ -88,8 +84,6 @@ public class GetController {
             logger.warn("Could not find user by this email: {}", MaskingUtils.anonymizeEmail(emailDTO.getEmail()));
             return "search";
         }
-
-
     }
 
     @GetMapping("/search")

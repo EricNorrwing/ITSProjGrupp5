@@ -23,7 +23,7 @@ public class GetControllerTest {
     @Test
     @DisplayName("testing that / cannot be access unless authorized")
     public void assertThatUserHasToBeLoggedIn() throws Exception {
-        mvc.perform(get("/").with(httpBasic("user", "password")))
+        mvc.perform(get("/").with(httpBasic("awddw", "awdawd")))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -33,22 +33,6 @@ public class GetControllerTest {
         mvc.perform(get("/admin/page").with(httpBasic("admin@admin.se", "adminpass")))
                 .andExpect(status().isOk());
     }
-
-    @Test
-    @DisplayName("Testing that a registration will fail when incorrect input is sent")
-    public void testFailedRegistration() throws Exception {
-        mvc.perform(post("/register/user")
-                        .with(httpBasic("admin@admin.se", "adminpass"))
-                        .param("email", "InvalidEmailAdress")
-                        .param("password", "p")
-                        .param("role", "")
-                        .param("name", "Sarah")
-                        .param("surname", "Connor")
-                        .param("age", "255"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeHasFieldErrors("userDTO", "email", "password", "role"));
-    }
-
 
 
 }

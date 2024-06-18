@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.util.HtmlUtils;
@@ -28,7 +29,6 @@ import java.security.Principal;
 @Controller
 public class PostController {
 
-    //TODO Different injection?
     private static final Logger logger = LoggerFactory.getLogger(PostController.class);
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
@@ -46,8 +46,6 @@ public class PostController {
             logger.warn("Failed to add user because the input has errors");
             return "registerUser";
         }
-
-
         userService.saveUser(new AppUser.AppUserBuilder()
                 .withEmail(HtmlUtils.htmlEscape(userDTO.getEmail()))
                 .withPassword(HtmlUtils.htmlEscape(passwordEncoder.encode(userDTO.getPassword())))
@@ -64,18 +62,22 @@ public class PostController {
 
 
     @PostMapping("/remove/user")
-    public String deleteUser(@ModelAttribute("email") @Valid EmailDTO emailDto, BindingResult result, Model model) {
+    public String deleteUser(@Valid @ModelAttribute("email") EmailDTO emailDto, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
+            logger.warn("Failed to remove user because the input has errors");
             return "search";
         }
 
         try {
             String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
 
-
             if (currentUser.equals(emailDto.getEmail())) {
                 model.addAttribute("message", "Could not remove the user as it is the current user.");
+                logger.warn("Attempted to delete own account with email: {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
+                return "search";
+            } else if (!userService.exists(emailDto.getEmail())) {
+                model.addAttribute("message", "Could not find the user: " + emailDto.getEmail());
                 logger.warn("Attempted to delete own account with email: {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
                 return "search";
             }
@@ -104,14 +106,19 @@ public class PostController {
         }
 
         try {
+            if(userService.exists(userDTO.getEmail())) {
+                AppUser user = userService.loadUserByUsername(userDTO.getEmail());
+                user.setPassword(passwordEncoder.encode(HtmlUtils.htmlEscape(userDTO.getPassword())));
+                userService.saveUser(user);
 
-            AppUser user = userService.loadUserByUsername(userDTO.getEmail());
-            user.setPassword(passwordEncoder.encode(HtmlUtils.htmlEscape(userDTO.getPassword())));
-            userService.saveUser(user);
-
-            model.addAttribute("message", "Successfully updated user " + userDTO.getEmail() + " with password " + userDTO.getPassword());
-            logger.debug("Successfully updated user {} with new password", MaskingUtils.anonymizeEmail(user.getEmail()));
-            return "updateSuccess";
+                model.addAttribute("message", "Successfully updated user " + MaskingUtils.anonymizeEmail(userDTO.getEmail()) + " with password " + userDTO.getPassword());
+                logger.debug("Successfully updated user {} with new password", MaskingUtils.anonymizeEmail(user.getEmail()));
+                return "updateSuccess";
+            } else {
+                model.addAttribute("message", "Could not find the user:" + userDTO.getEmail());
+                logger.warn("Could not find user: {}", MaskingUtils.anonymizeEmail(userDTO.getEmail()));
+                return "search";
+            }
         } catch (UsernameNotFoundException ex) {
             model.addAttribute("message", "User not found: " + userDTO.getEmail());
             logger.warn("User not found: {}", MaskingUtils.anonymizeEmail(userDTO.getEmail()));
