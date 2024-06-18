@@ -66,7 +66,17 @@ public class GetController {
     @GetMapping("/update/user")
     public String updateUserForm(@ModelAttribute("emailDTO") EmailDTO emailDTO, Model model) {
 
+        String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        if (currentUser.equals(emailDTO.getEmail())) {
+            model.addAttribute("message", "Could not remove the user as it is the current user.");
+            logger.warn("Attempted to delete own account with email: {}", MaskingUtils.anonymizeEmail(emailDTO.getEmail()));
+            model.addAttribute("email", emailDTO);
+            return "search";
+        }
+
         if(userService.exists(emailDTO.getEmail())) {
+
             UpdateUserDTO updateUserDTO = new UpdateUserDTO();
             updateUserDTO.setEmail(emailDTO.getEmail());
             model.addAttribute("updateUserDTO", updateUserDTO);

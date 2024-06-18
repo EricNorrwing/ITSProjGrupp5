@@ -22,13 +22,14 @@ import se.g5.itsprojgrupp5.service.CustomUserDetailsService;
 import se.g5.itsprojgrupp5.configurations.MaskingUtils;
 import se.g5.itsprojgrupp5.service.UserService;
 
+import java.security.Principal;
+
 // TODO Add class comment
 @Controller
 public class PostController {
 
     //TODO Different injection?
     private static final Logger logger = LoggerFactory.getLogger(PostController.class);
-    private static HtmlUtils htmlUtils;
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
 
@@ -38,7 +39,7 @@ public class PostController {
         this.userService = userService;
     }
 
-    //TODO CLEAN DATA WITH HTMLUTILS
+
     @PostMapping("/register/user")
     public String createUser (@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult result, Model model) {
         if(result.hasErrors()) {
@@ -49,7 +50,7 @@ public class PostController {
 
         userService.saveUser(new AppUser.AppUserBuilder()
                 .withEmail(HtmlUtils.htmlEscape(userDTO.getEmail()))
-                .withPassword(passwordEncoder.encode(userDTO.getPassword()))
+                .withPassword(HtmlUtils.htmlEscape(passwordEncoder.encode(userDTO.getPassword())))
                 .withRole(userDTO.getRole())
                 .withName(userDTO.getName())
                 .withSurname(userDTO.getSurname())
@@ -62,7 +63,6 @@ public class PostController {
     }
 
 
-    //TODO CLEAN DATA WITH HTMLUTILS
     @PostMapping("/remove/user")
     public String deleteUser(@ModelAttribute("email") @Valid EmailDTO emailDto, BindingResult result, Model model) {
 
@@ -70,9 +70,16 @@ public class PostController {
             return "search";
         }
 
-
-
         try {
+            String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+
+
+            if (currentUser.equals(emailDto.getEmail())) {
+                model.addAttribute("message", "Could not remove the user as it is the current user.");
+                logger.warn("Attempted to delete own account with email: {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
+                return "search";
+            }
+
             userService.deleteUser(HtmlUtils.htmlEscape(emailDto.getEmail()));
             logger.debug("Removed user with email {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
             model.addAttribute("message", "User removed successfully: " + emailDto.getEmail());
@@ -82,13 +89,13 @@ public class PostController {
             logger.warn("Could not remove user: user does not exist with email: {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
             return "search";
         } catch (Exception ex) {
-            model.addAttribute("message", "Could not find user with email: " + emailDto.getEmail());
+            model.addAttribute("message", "An unexpected error occurred while removing user: " + emailDto.getEmail());
             logger.warn("An unexpected error occurred while removing user: {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
             return "search";
         }
     }
 
-    //TODO HTMLUTILS
+
     @PostMapping("/update/user")
     public String updateUser(@Valid @ModelAttribute("updateUserDTO") UpdateUserDTO userDTO, BindingResult result, Model model) {
         if (result.hasErrors()) {
@@ -97,6 +104,7 @@ public class PostController {
         }
 
         try {
+
             AppUser user = userService.loadUserByUsername(userDTO.getEmail());
             user.setPassword(passwordEncoder.encode(HtmlUtils.htmlEscape(userDTO.getPassword())));
             userService.saveUser(user);
