@@ -4,7 +4,11 @@ import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.NumberFormat;
 
-//TODO CLASS COMMENT
+/*
+User data transfer objekt.
+Validation, transfer.
+Used to avoid accessing database directly.
+ */
 public class UserDTO {
 
     @NotEmpty

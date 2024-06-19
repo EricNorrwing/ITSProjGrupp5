@@ -16,6 +16,10 @@ import se.g5.itsprojgrupp5.service.CustomUserDetailsService;
 
 import java.util.Collections;
 
+/*
+Authenticates and authorization for users.
+ */
+
 @Configuration
 public class SecurityConfiguration {
 

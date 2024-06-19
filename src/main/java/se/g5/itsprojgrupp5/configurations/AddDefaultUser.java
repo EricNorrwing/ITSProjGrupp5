@@ -11,6 +11,10 @@ import se.g5.itsprojgrupp5.repository.UserRepository;
 import se.g5.itsprojgrupp5.service.CustomUserDetailsService;
 import se.g5.itsprojgrupp5.service.UserService;
 
+/*
+Adding default users upon startup.
+ */
+
 @Component
 public class AddDefaultUser {
     private static final Logger logger = LoggerFactory.getLogger(GetController.class);

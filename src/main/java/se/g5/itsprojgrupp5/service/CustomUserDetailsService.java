@@ -15,7 +15,12 @@ import se.g5.itsprojgrupp5.repository.UserRepository;
 
 import java.util.Collection;
 import java.util.Collections;
-//TODO class comment
+
+/*
+Fetches users for authentication for spring security.
+Fetches users of type UserDetails.
+ */
+
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -26,6 +31,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         super();
         this.userRepository = userRepository;
     }
+
 
     @Override
     public AppUser loadUserByUsername(String email) throws UsernameNotFoundException {

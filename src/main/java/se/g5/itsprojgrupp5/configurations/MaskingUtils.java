@@ -2,9 +2,14 @@ package se.g5.itsprojgrupp5.configurations;
 
 import java.util.regex.Pattern;
 
+/*
+Hides email address.
+Check if email address > anonymize Email address.
+ */
+
 public class MaskingUtils {
 
-    //Stolen from the internet as regex for general email patterns
+
     private static final Pattern EMAIL_PATTERN = Pattern.compile(
             "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
             Pattern.CASE_INSENSITIVE
