@@ -68,7 +68,8 @@ public class PostControllerTest {
         mvc.perform(post("/remove/user")
                         .with(httpBasic("admin@admin.se", "adminpass"))
                         .flashAttr("email", emailDTO))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+        .andExpect(view().name("removeUserSuccess"));
     }
 
     @Test

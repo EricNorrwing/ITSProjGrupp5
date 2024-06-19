@@ -4,6 +4,7 @@ package se.g5.itsprojgrupp5.controllers;
 import jakarta.validation.Valid;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -65,6 +66,8 @@ public class GetController {
     public String updateUserForm(@ModelAttribute("emailDTO") EmailDTO emailDTO, Model model) {
 
         String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        try {
+
 
         if (currentUser.equals(emailDTO.getEmail())) {
             model.addAttribute("message", "Could not remove the user as it is the current user.");
@@ -73,17 +76,18 @@ public class GetController {
             return "search";
         }
 
-        if(userService.exists(emailDTO.getEmail())) {
-
+            //Throws usernameNotFoundException
+            userService.loadUserByUsername(emailDTO.getEmail());
             UpdateUserDTO updateUserDTO = new UpdateUserDTO();
             updateUserDTO.setEmail(emailDTO.getEmail());
             model.addAttribute("updateUserDTO", updateUserDTO);
             logger.debug("Accessing the updateUser form with email: {}", MaskingUtils.anonymizeEmail(emailDTO.getEmail()));
             return "updateUser";
-        } else {
-            model.addAttribute("email", new EmailDTO());
-            model.addAttribute("message", "Error, could not find user by name: " + emailDTO.getEmail());
-            logger.warn("Could not find user by this email: {}", MaskingUtils.anonymizeEmail(emailDTO.getEmail()));
+
+        } catch (UsernameNotFoundException e) {
+            model.addAttribute("message", "Could not find user with username: " + emailDTO.getEmail());
+            logger.debug("Could not find user " + emailDTO.getEmail());
+            model.addAttribute("email", emailDTO);
             return "search";
         }
     }

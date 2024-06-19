@@ -2,8 +2,6 @@ package se.g5.itsprojgrupp5.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import se.g5.itsprojgrupp5.configurations.MaskingUtils;
@@ -11,12 +9,8 @@ import se.g5.itsprojgrupp5.controllers.GetController;
 import se.g5.itsprojgrupp5.model.AppUser;
 import se.g5.itsprojgrupp5.repository.UserRepository;
 
-import java.util.Collection;
-import java.util.Collections;
-
 /*
 Layer for interacting with user objects.
-
  */
 
 @Service
@@ -39,11 +33,6 @@ public class UserService {
         userRepository.delete(user);
         logger.debug("removed user with username {}", MaskingUtils.anonymizeEmail(user.getEmail()));
     }
-
-    public boolean exists (String email) {
-        return userRepository.existsByEmail(email);
-    }
-
 
     public AppUser loadUserByUsername(String email) throws UsernameNotFoundException {
         AppUser user = userRepository.findByEmail(email);

@@ -4,26 +4,20 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.util.HtmlUtils;
+import se.g5.itsprojgrupp5.configurations.MaskingUtils;
 import se.g5.itsprojgrupp5.dto.EmailDTO;
 import se.g5.itsprojgrupp5.dto.UpdateUserDTO;
 import se.g5.itsprojgrupp5.dto.UserDTO;
 import se.g5.itsprojgrupp5.model.AppUser;
-import se.g5.itsprojgrupp5.repository.UserRepository;
-import se.g5.itsprojgrupp5.service.CustomUserDetailsService;
-import se.g5.itsprojgrupp5.configurations.MaskingUtils;
 import se.g5.itsprojgrupp5.service.UserService;
-
-import java.security.Principal;
 
 /*
 Post endpoints.
@@ -78,23 +72,17 @@ public class PostController {
                 model.addAttribute("message", "Could not remove the user as it is the current user.");
                 logger.warn("Attempted to delete own account with email: {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
                 return "search";
-            } else if (!userService.exists(emailDto.getEmail())) {
-                model.addAttribute("message", "Could not find the user: " + emailDto.getEmail());
-                logger.warn("Attempted to delete own account with email: {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
-                return "search";
             }
 
-            userService.deleteUser(HtmlUtils.htmlEscape(emailDto.getEmail()));
+            AppUser user = userService.loadUserByUsername(emailDto.getEmail());
+            userService.deleteUser(user.getEmail());
             logger.debug("Removed user with email {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
             model.addAttribute("message", "User removed successfully: " + emailDto.getEmail());
             return "removeUserSuccess";
+
         } catch (UsernameNotFoundException ex) {
             model.addAttribute("message", "Could not find user with email: " + emailDto.getEmail());
             logger.warn("Could not remove user: user does not exist with email: {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
-            return "search";
-        } catch (Exception ex) {
-            model.addAttribute("message", "An unexpected error occurred while removing user: " + emailDto.getEmail());
-            logger.warn("An unexpected error occurred while removing user: {}", MaskingUtils.anonymizeEmail(emailDto.getEmail()));
             return "search";
         }
     }
@@ -108,7 +96,6 @@ public class PostController {
         }
 
         try {
-            if(userService.exists(userDTO.getEmail())) {
                 AppUser user = userService.loadUserByUsername(userDTO.getEmail());
                 user.setPassword(passwordEncoder.encode(HtmlUtils.htmlEscape(userDTO.getPassword())));
                 userService.saveUser(user);
@@ -116,18 +103,9 @@ public class PostController {
                 model.addAttribute("message", "Successfully updated user " + MaskingUtils.anonymizeEmail(userDTO.getEmail()) + " with password " + userDTO.getPassword());
                 logger.debug("Successfully updated user {} with new password", MaskingUtils.anonymizeEmail(user.getEmail()));
                 return "updateSuccess";
-            } else {
-                model.addAttribute("message", "Could not find the user:" + userDTO.getEmail());
-                logger.warn("Could not find user: {}", MaskingUtils.anonymizeEmail(userDTO.getEmail()));
-                return "search";
-            }
         } catch (UsernameNotFoundException ex) {
             model.addAttribute("message", "User not found: " + userDTO.getEmail());
             logger.warn("User not found: {}", MaskingUtils.anonymizeEmail(userDTO.getEmail()));
-            return "updateUser";
-        } catch (Exception ex) {
-            model.addAttribute("message", "An error occurred while updating the user.");
-            logger.warn("An unexpected error occurred while updating user: {}", MaskingUtils.anonymizeEmail(userDTO.getEmail()), ex);
             return "updateUser";
         }
     }
